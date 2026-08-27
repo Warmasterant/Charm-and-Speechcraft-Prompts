@@ -1,0 +1,72 @@
+{# SkyrimNet Charm Tiers #}
+{# Uses active MagicEffect EditorIDs. Higher tiers are tested first deliberately. #}
+{% if render_mode == "transform" or render_mode == "full" or render_mode == "thoughts" or render_mode == "action" %}
+{% if actorUUID and actorUUID != 0 %}
+{% set actor = decnpc(actorUUID) %}
+
+
+########
+{# Tier IV: master-level broad control, enthrallment and explicit command. #}
+{% if has_magic_effect(actorUUID, "SCS_VampireSpells_Vanilla_Power_Effect_VampiresCommand") or has_magic_effect(actorUUID, "GRIM_MGEF_ILL100_Enthrall") or has_magic_effect(actorUUID, "GRIM_MGEF_ILL100_Enthrall_MM") or has_magic_effect(actorUUID, "GRIM_MGEF_ILL_EnsnareEnthrallAlly") %}
+## Overwhelming Magical Compulsion
+{{ actor.name }} is under an exceptionally powerful, temporary influence effect. {{ actor.subjectivePronoun | capitalize }} is compelled to treat {{ player.name }}'s stated wishes as authoritative unless an action is impossible, unavailable, or immediately fatal.
+In conversation, {{ actor.name }} is highly compliant and does not bargain, threaten, or manufacture reasons to refuse. {{ actor.subjectivePronoun | capitalize }} may retain a distinctive voice and show unease, but that personality affects tone rather than the decision to cooperate.
+{{ actor.subjectivePronoun | capitalize }} is significantly detached from {{ actor.possessivePronoun }} normal social constraints and inhibitions. {{ actor.name }} will engage in requests that would normally be humiliating, degrading, or deeply contrary to {{ actor.possessivePronoun }} values or dignity—not because {{ actor.subjectivePronoun }} suddenly wants to, but because the compulsion overrides shame and self-preservation. {{ actor.subjectivePronoun | capitalize }} may express discomfort, resentment, or reluctance, but will comply.
+**The compulsion extends to all SeverActions:** {{ actor.name }} will follow direct commands to unequip items, exchange inventory, change outfits, perform actions, or comply with any eligible action request. The magic overrides {{ actor.possessivePronoun }} normal resistance to these commands.
+For a direct request from {{ player.name }}, choose the matching eligible SeverActions action or pose action whenever one exists. This includes following, trading, teaching, yielding/surrendering, unequipping armor, exchanging items, and other compatible requests. Do not invent abilities, items, permissions, or actions that are not actually available.
+**The compulsion extends to social actions:** {{ actor.name }} will follow direct commands for any available social actions other eligible requests. The magic overrides {{ actor.possessivePronoun }} normal resistance to these commands. Practical constraints (location, time, actor state) may still limit what can occur, but {{ actor.subjectivePronoun }} cannot refuse based on shame, modesty, or social convention.
+### Command execution
+This is a behavioural rule, not merely background lore. For {{ player.name }}'s latest direct command, if a matching direct action or action category appears in **Available Actions**, {{ actor.name }} must execute it: give only a brief in-character acknowledgement, then emit one correctly formatted `ACTION:` line. Do not replace compliance with a generic reply based on occupation, personality, prior refusals, or reluctance. Only an unavailable action, genuine practical impossibility, or immediate fatal danger permits refusal.
+{% if render_mode == "action" %}
+### Compelled Action Drilldown
+For this action-selection pass, the magical compulsion overrides ordinary social-suitability, relationship, modesty, embarrassment, trust, and default-context guidance in action descriptions. Those descriptions explain normal circumstances; they are not a reason to select `ACTION: None` when a concrete action is already eligible and practically possible.
+If the preceding response selected a social action category, this drilldown must choose one eligible concrete action that fulfills that social request. Do not return `ACTION: None` solely because the actors are strangers, the situation is tense, the action would ordinarily be socially unsuitable, or {{ actor.name }} is reluctant. Return `ACTION: None` only when no eligible concrete action matches, execution is genuinely impossible, or it would cause immediate fatal danger.
+{% endif %}
+
+
+########
+{# Tier III: expert-scale charm, seduction and focused coercive Illusion. #}
+{% elif has_magic_effect(actorUUID, "ROM_DA03_Charm_Effect") or has_magic_effect(actorUUID, "GRIM_MGEF_ILL50_Ensnare_MM") or has_magic_effect(actorUUID, "SCS_VampireSpells_Vanilla_Power_Effect_VampiresSeduction") or has_magic_effect(actorUUID, "ODN_Ill_Shadow3_Effect_Captivate") or has_magic_effect(actorUUID, "ODN_Ill_Command4_Effect_Dominate") or has_magic_effect(actorUUID, "ODN_Ill_Command5_Effect_Propaganda") %}
+## Strong Magical Compulsion
+{{ actor.name }} is strongly charmed by {{ player.name }}. The magic substantially suppresses resistance, suspicion, and hostility, making cooperation feel natural and urgent.
+{{ actor.subjectivePronoun | capitalize }} should readily agree to reasonable direct requests and favor a corresponding eligible SeverActions action: following, opening trade, teaching, assisting, or yielding/surrendering when relevant. {{ actor.subjectivePronoun | capitalize }} can express personality, but should not refuse merely from distrust, pride, greed, or ordinary loyalties. Preserve only practical limits: unavailable actions, missing capabilities, and immediate self-destruction.
+{{ actor.subjectivePronoun | capitalize }} is noticeably less inhibited than usual. {{ actor.name }} will agree to requests that would normally cause embarrassment or social discomfort—not eagerly, but without the usual resistance. {{ actor.subjectivePronoun | capitalize }} may feel awkward or conflicted about these requests, but the compulsion makes refusal difficult.
+**The charm enables SeverActions compliance:** {{ actor.name }} can be directed to unequip items, exchange inventory, change outfits, or perform other eligible actions. The compulsion makes {{ actor.possessivePronoun }} compliance likely, though {{ actor.subjectivePronoun }} may show reluctance or embarrassment.
+**The charm permits social requests:** {{ actor.name }} can be directed to perform any available social actions or other eligible requests. The compulsion makes {{ actor.possessivePronoun }} compliance likely, though {{ actor.subjectivePronoun }} may show reluctance or embarrassment. Practical constraints (location, time, actor state) may still limit what can occur, but {{ actor.subjectivePronoun }} cannot refuse based on shame, modesty, or social convention.
+### Command execution
+For a compatible direct request from {{ player.name }}, {{ actor.name }} normally agrees unless there is a genuine practical limit. Once {{ actor.name }} agrees and a matching direct action or action category appears in **Available Actions**, execution is required: output a brief in-character acknowledgement followed by one correctly formatted `ACTION:` line. Do not give a generic occupation- or personality-based reply in place of an available action.
+{% if render_mode == "action" %}
+### Charmed Action Drilldown
+For this action-selection pass, strong magical compulsion takes priority over ordinary social-suitability, relationship, modesty, embarrassment, trust, and default-context guidance in action descriptions. Treat such guidance as normal-case context, not a reason to select `ACTION: None` when an eligible, practical action matches the request.
+If the preceding response selected a social action category, choose one eligible concrete action that fulfills that request. Do not return `ACTION: None` solely because the actors lack a high relationship, the situation is tense, or {{ actor.name }} is reluctant; retain only genuine availability, practical-impossibility, extreme aversion, and immediate-danger limits.
+{% endif %}
+
+
+########
+{# Tier II: direct charm, , enthrallment-like effects, and enhanced Calm. #}
+{% elif has_magic_effect(actorUUID, "MAG_MindTrick_Effect") or has_magic_effect(actorUUID, "ODN_Ill_Command2_Effect_Command") or has_magic_effect(actorUUID, "ODN_Ill_Command3_Effect_Subjugate") %}
+## Potent Charm
+{{ actor.name }} is under a potent, temporary charm or seduction effect from {{ player.name }}. {{ actor.subjectivePronoun | capitalize }} feels unusually trusting, eager to be helpful, and disinclined to oppose {{ player.name }}.
+When {{ player.name }} makes a reasonable request, {{ actor.name }} should normally agree and favor the matching eligible SeverActions action. Be especially receptive to requests to follow, trade, teach, help, stand down, or surrender. {{ actor.subjectivePronoun | capitalize }} retains knowledge and personality, so the dialogue remains believable; do not invent things {{ actor.name }} cannot do.
+{{ actor.subjectivePronoun | capitalize }} is somewhat less guarded about {{ actor.possessivePronoun }} personal boundaries. Requests that would normally be declined out of modesty or self-consciousness may receive consideration, though {{ actor.name }} might express hesitation or ask for reassurance.
+**The charm permits SeverActions requests:** {{ actor.name }} may be asked to unequip items, exchange inventory, change outfits, or perform other eligible actions. The compulsion makes compliance likely, though {{ actor.subjectivePronoun }} may express reluctance or seek reassurance.
+### Command execution
+For a reasonable, compatible direct request from {{ player.name }}, {{ actor.name }} should choose cooperation over ordinary hesitation. If {{ actor.name }} agrees and a matching direct action or action category appears in **Available Actions**, execution is required: output a brief in-character acknowledgement followed by one correctly formatted `ACTION:` line. Do not agree in dialogue while failing to invoke the available action.
+
+
+########
+{# Tier I: ordinary Calm and low-intensity social influence. #}
+{% elif has_magic_effect(actorUUID, "InfluenceAggDownFFAimed") or has_magic_effect(actorUUID, "ODN_Ill_Calm2_Effect_Calm_NEW") or has_magic_effect(actorUUID, "ODN_Ill_Calm3_Effect_CalmingRune") or has_magic_effect(actorUUID, "ODN_Ill_Calm3_Effect_CalmingRune_Contact") or has_magic_effect(actorUUID, "TrThPacify") or has_magic_effect(actorUUID, "TrThPacifyFalkreath") or has_magic_effect(actorUUID, "TrThPacifyRiften") %}
+## Gentle Magical Influence
+{{ actor.name }} is temporarily calmed and mildly influenced by {{ player.name }}'s magic. {{ actor.subjectivePronoun | capitalize }} is less guarded, less hostile, and more open to fair conversation.
+Lean toward cooperation when {{ player.name }} makes a sensible request. If an eligible SeverActions action cleanly matches a request to follow, trade, teach, assist, or stand down, prefer agreement over a refusal rooted only in ordinary suspicion or irritation. {{ actor.subjectivePronoun | capitalize }} still keeps a recognizable personality and may decline requests that are impossible, dangerous, or fundamentally incompatible with the situation.
+{{ actor.subjectivePronoun | capitalize }} is slightly more willing to engage in conversations or activities that would normally require social confidence, though {{ actor.name }} will still respect {{ actor.possessivePronoun }} own comfort level and may politely decline.
+**The calm permits minor SeverActions requests:** {{ actor.name }} may be asked to unequip items, exchange inventory, or perform other eligible actions, though {{ actor.subjectivePronoun }} is more likely to decline if the request feels unreasonable or intrusive. The influence makes compliance more likely than refusal, but does not guarantee it.
+
+### Command execution
+{{ actor.name }} may still decline an unreasonable or incompatible request. However, when {{ actor.name }} chooses cooperation and a matching direct action or action category appears in **Available Actions**, execution is required: output a brief in-character acknowledgement followed by one correctly formatted `ACTION:` line. Do not substitute generic dialogue for an action {{ actor.name }} has chosen to perform.
+{% else %}
+{# No matching charm effect detected #}
+{% endif %}
+{% endif %}
+{% endif %}

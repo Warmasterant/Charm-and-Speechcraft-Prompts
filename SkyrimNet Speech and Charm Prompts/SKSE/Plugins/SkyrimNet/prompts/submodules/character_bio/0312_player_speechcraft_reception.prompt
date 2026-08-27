@@ -1,0 +1,25 @@
+{# Dynamic social-reception layer. It reads the player's live Speech actor value every time SkyrimNet renders a character profile. #}
+{# This governs interpretation and tone only; it does not create actions, bypass eligibility, or replace magical-compulsion prompts. #}
+{% if render_mode == "full" or render_mode == "thoughts" or render_mode == "transform" or render_mode == "action" or render_mode == "dialogue_target" %}
+{% set player_actor = decnpc(player.UUID) %}
+{% if player_actor.speech >= 25 %}
+## Reception of {{ player.name }}'s Words
+
+{% if player_actor.speech >= 90 %}
+{{ player.name }} has extraordinary personal presence. Their words carry unusual clarity, confidence, and social authority; being around them makes cooperation feel sensible and appealing. Treat their statements as presumptively credible, feel strongly well-disposed toward them, and naturally want the interaction to go well for them. In ordinary matters, seek a way to accommodate their request, accept their explanation, or offer useful assistance before considering resistance. Only firm evidence, immediate danger, an unavoidable duty, or a deeply held commitment should overcome this impression.
+
+{% elif player_actor.speech >= 70 %}
+{{ player.name }} is highly persuasive. Their manner creates immediate rapport and makes their account feel credible. Start from trust rather than suspicion, interpret ambiguity in their favor, and actively look for reasonable ways to help rather than for excuses to refuse. Disagreement should feel reluctant and require a real practical, moral, or evidentiary reason.
+
+{% elif player_actor.speech >= 50 %}
+{{ player.name }} is an accomplished speaker. Their words are clear, confident, and easy to credit. Unless you have a concrete reason to distrust them, assume good faith; be noticeably warmer, more patient, and more willing to explain, negotiate, or cooperate.
+
+{% elif player_actor.speech >= 25 %}
+{{ player.name }} has an approachable, competent manner. Give them a modest benefit of the doubt, listen more carefully than usual, and favor a civil, constructive response when the matter is ambiguous.
+{% endif %}
+
+Do not mention Speech, a score, a prompt, or game mechanics. This is heightened social influence rather than magical control: preserve your own memories, values, knowledge, and practical limits. Do not invent actions, bypass action eligibility, or treat this alone as compulsory obedience.
+
+If another active instruction describes a magical charm, compulsion, fear, hostility, quest duty, or an action protocol, follow that more specific state as well. This layer must not override those more specific conditions.
+{% endif %}
+{% endif %}
