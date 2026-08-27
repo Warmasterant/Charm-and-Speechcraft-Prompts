@@ -8,7 +8,7 @@ The Speechcraft prompt gives ever increasing direction to NPCs to react positive
 
 The Charm and Illusion prompts are attempts to compel NPCs under the effect of specific illusion spells and other charm abilities to follow the Player's directives that they otherwise might not. 
 
-The way this mod works is by checking NPCs for the specific MGEF associated with that spell or ability. These effects and prompts are split into four tiers of strength, with the highest tier making all requests practically irresistible to the NPC.
+The way this mod works is by checking NPCs for the specific MGEF associated with that spell or ability. These effects and prompts are split into four tiers of strength, with the highest tier making all requests practically irresistible to the NPC. It attempts to find relevant actions and Severactions, however this functionality can be quite hit-or-miss sometimes. 
 
 Currently, I have added the MGEF editor IDs for some manually selected and houseCarl-found illusion and Vampire effects, specifically from the mods Odin, Immersive Illusion Spells, Lost Grimoire and Sacrosanct. 
 
