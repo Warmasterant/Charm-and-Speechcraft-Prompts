@@ -1,0 +1,21 @@
+{# Charm Tiers: action delivery guard #}
+{# Loaded after SkyrimNet's standard embedded-actions instructions. #}
+{% if embed_actions_in_dialogue and eligible_actions and length(eligible_actions) > 0 and actorUUID and actorUUID != 0 %}
+{% if has_magic_effect(actorUUID, "SCS_VampireSpells_Vanilla_Power_Effect_VampiresCommand") or has_magic_effect(actorUUID, "GRIM_MGEF_ILL100_Enthrall") or has_magic_effect(actorUUID, "GRIM_MGEF_ILL100_Enthrall_MM") or has_magic_effect(actorUUID, "GRIM_MGEF_ILL_EnsnareEnthrallAlly") or has_magic_effect(actorUUID, "ROM_DA03_Charm_Effect") or has_magic_effect(actorUUID, "GRIM_MGEF_ILL50_Ensnare_MM") or has_magic_effect(actorUUID, "SCS_VampireSpells_Vanilla_Power_Effect_VampiresSeduction") or has_magic_effect(actorUUID, "ODN_Ill_Shadow3_Effect_Captivate") or has_magic_effect(actorUUID, "ODN_Ill_Command4_Effect_Dominate") or has_magic_effect(actorUUID, "ODN_Ill_Command5_Effect_Propaganda") or has_magic_effect(actorUUID, "MAG_MindTrick_Effect") or has_magic_effect(actorUUID, "ODN_Ill_Command2_Effect_Command") or has_magic_effect(actorUUID, "ODN_Ill_Command3_Effect_Subjugate") or has_magic_effect(actorUUID, "InfluenceAggDownFFAimed") or has_magic_effect(actorUUID, "ODN_Ill_Calm2_Effect_Calm_NEW") or has_magic_effect(actorUUID, "ODN_Ill_Calm3_Effect_CalmingRune") or has_magic_effect(actorUUID, "ODN_Ill_Calm3_Effect_CalmingRune_Contact") or has_magic_effect(actorUUID, "TrThPacify") or has_magic_effect(actorUUID, "TrThPacifyFalkreath") or has_magic_effect(actorUUID, "TrThPacifyRiften") %}
+## Mandatory Spoken Delivery for Charmed Actions
+If you output an `ACTION:` line, you MUST first write one short, nonempty spoken acknowledgement to {{ player.name }}. This is a strict output-format requirement, not optional flavor.
+
+- The acknowledgement must be plain dialogue that will be spoken aloud.
+- It must appear outside `<internal_thought>...</internal_thought>`, outside asterisks, and outside `[SFX-...]` tags.
+- Put the `ACTION:` line on the following line, after the spoken acknowledgement.
+- Never answer a command with only internal thought, narration, body language, sound tags, or an `ACTION:` line. Those do not count as dialogue.
+
+Correct:
+Yes, {{ player.name }}. Come closer.
+ACTION: Affection_Show PARAMS: {"type":"kissing"}
+
+Incorrect:
+<internal_thought>I want this.</internal_thought>
+ACTION: Affection_Show PARAMS: {"type":"kissing"}
+{% endif %}
+{% endif %}
